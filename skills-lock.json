@@ -22,6 +22,13 @@
       "skillPath": "skills/brand-intake/SKILL.md",
       "computedHash": "a4ab9773c4e82b9c7453aed3ca68442bdc705944f1a4e7c2ff89c9a0d394a848"
     },
+    "characteristic-voice": {
+      "source": "NoizAI/skills",
+      "commit": "779f30af588ebf4dd17fc0acaa590ae147a0d3f5",
+      "sourceType": "github",
+      "skillPath": "skills/characteristic-voice/SKILL.md",
+      "computedHash": "13f2e862e907638103d0bb918aaf85c5468b11ed0d0eab74fb36e436119e0f8b"
+    },
     "launch-video": {
       "source": "charlie947/motion-graphics-skills",
       "commit": "229022ebca76972e119e36ada23a1648d51665ab",
@@ -92,12 +99,33 @@
       "skillPath": "skills/reference-to-motion/SKILL.md",
       "computedHash": "e090335adae1b0233d00fe2e341c19b0a02a18579af7b61765164655de45934f"
     },
+    "sound-fx": {
+      "source": "NoizAI/skills",
+      "commit": "779f30af588ebf4dd17fc0acaa590ae147a0d3f5",
+      "sourceType": "github",
+      "skillPath": "skills/sound-fx/SKILL.md",
+      "computedHash": "a65fc5d4e7580c6aa28137edfb059c8cb2dd9650a8b54b4b3713b6a93417e6c1"
+    },
+    "speech-to-text": {
+      "source": "NoizAI/skills",
+      "commit": "779f30af588ebf4dd17fc0acaa590ae147a0d3f5",
+      "sourceType": "github",
+      "skillPath": "skills/speech-to-text/SKILL.md",
+      "computedHash": "df8fb4d558ec3e18bb99b98f73a1d1855c87d6b30407550546e530636bf46c04"
+    },
     "title-sequence-3d": {
       "source": "charlie947/motion-graphics-skills",
       "commit": "229022ebca76972e119e36ada23a1648d51665ab",
       "sourceType": "github",
       "skillPath": "skills/title-sequence-3d/SKILL.md",
       "computedHash": "c22dae16fed38d03886e1e060f26fa5e70b0b33d318477a9394f9a63d090ec2a"
+    },
+    "tts": {
+      "source": "NoizAI/skills",
+      "commit": "779f30af588ebf4dd17fc0acaa590ae147a0d3f5",
+      "sourceType": "github",
+      "skillPath": "skills/tts/SKILL.md",
+      "computedHash": "1d40aa00711c0468cad754d01d63382d6a3ebefdf18132fa45cdef28e1383bc8"
     },
     "vox-explainer": {
       "source": "charlie947/motion-graphics-skills",
