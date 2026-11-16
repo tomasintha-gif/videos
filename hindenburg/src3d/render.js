@@ -18,6 +18,7 @@ const fs = require('fs'), path = require('path');
   const t0 = Date.now();
   for (let k = 0; k < frames.length; k++) {
     const f = frames[k]; const t = mode === 'stills' ? f : f / fps;
+    if (mode !== 'stills' && fs.existsSync(path.join(out, String(f).padStart(5, '0') + '.jpg')) && fs.statSync(path.join(out, String(f).padStart(5, '0') + '.jpg')).size > 20000) continue;
     const b64 = await page.evaluate(t => { window.seek(t); return document.getElementById('c').toDataURL('image/jpeg', 0.92).split(',')[1]; }, t);
     const name = mode === 'stills' ? String(k).padStart(5, '0') : String(f).padStart(5, '0');
     fs.writeFileSync(path.join(out, name + '.jpg'), Buffer.from(b64, 'base64'));

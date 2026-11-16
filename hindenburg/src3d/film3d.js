@@ -243,8 +243,8 @@
   const storm = new T.Scene(); storm.fog = new T.Fog(0x3B4766, 200, 1400);
   makeSky(storm, '#26304A', '#5B6788'); lights(storm, [200, 400, 100], 0x9AA6C8, 0x2A2F3E, 0xC9D3F0, 500);
   const stormCloudMat = toon(0x6F7A96);
-  { sd = 404; for (let i = 0; i < 60; i++) { const g = new T.Group(); for (let k = 0; k < 5; k++) { const s = new T.Mesh(new T.SphereGeometry(20 + rnd() * 25, 10, 8), stormCloudMat); s.position.set((rnd() - 0.5) * 80, (rnd() - 0.5) * 20, (rnd() - 0.5) * 50); g.add(s); } g.position.set(-900 + rnd() * 1800, 40 + rnd() * 260, -500 + rnd() * 900); g.scale.setScalar(1 + rnd()); storm.add(g); } }
-  const bolts = []; { const m = new T.MeshBasicMaterial({ color: 0xFFF2A0 }); for (let b = 0; b < 5; b++) { const pts = []; let x = 0, y = 0; for (let i = 0; i < 9; i++) { pts.push(new T.Vector3(x, y, 0)); x += (Math.sin(b * 7 + i * 3.1) * 14); y -= 26; } const tube = new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3(pts, false, 'catmullrom', 0), 40, 2.4, 5), m); tube.position.set(-400 + b * 200, 260, -200 + (b % 2) * 300); storm.add(tube); bolts.push(tube); } }
+  { sd = 404; for (let i = 0; i < 60; i++) { const g = new T.Group(); for (let k = 0; k < 5; k++) { const s = new T.Mesh(new T.SphereGeometry(20 + rnd() * 25, 10, 8), stormCloudMat); s.position.set((rnd() - 0.5) * 80, (rnd() - 0.5) * 20, (rnd() - 0.5) * 50); g.add(s); } g.position.set(-900 + rnd() * 1800, 40 + rnd() * 260, -500 + rnd() * 900); if (g.position.z > -160) { if (g.position.y > 110) g.position.z -= 720; else g.position.y -= 60; } g.scale.setScalar(1 + rnd()); storm.add(g); } }
+  const bolts = []; { const m = new T.MeshBasicMaterial({ color: 0xFFF2A0 }); for (let b = 0; b < 5; b++) { const pts = []; let x = 0, y = 0; for (let i = 0; i < 9; i++) { pts.push(new T.Vector3(x, y, 0)); x += (Math.sin(b * 7 + i * 3.1) * 14); y -= 26; } const tube = new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3(pts, false, 'catmullrom', 0), 40, 2.4, 5), m); tube.position.set(-400 + b * 200, 330, -260 + (b % 2) * 160); storm.add(tube); bolts.push(tube); } }
   const stormShip = makeShip(); storm.add(stormShip);
   const rain = new T.LineSegments(new T.BufferGeometry(), new T.LineBasicMaterial({ color: 0xB9C6E8, transparent: true, opacity: 0.55 }));
   { const p = []; sd = 9; for (let i = 0; i < 2500; i++) { const x = (rnd() - 0.5) * 1400, y = rnd() * 500, z = (rnd() - 0.5) * 1200; p.push(x, y, z, x + 3, y - 18, z); } rain.geometry.setAttribute('position', new T.Float32BufferAttribute(p, 3)); storm.add(rain); }
@@ -280,9 +280,9 @@
   const shots = [
     // 1 — hook: low along the ground, crane up to the ship over the mast
     (t, d) => { resetField(); const u = ease(t / d);
-      shipAtMast(40 - u * 10, 62); hero.grp.visible = true; hero.grp.position.set(70, 0, 30); hero.set(u > 0.45 ? 'surprised' : 'neutral', u > 0.45 ? 'up' : 'down'); hero.bob(t);
+      shipAtMast(40 - u * 10, 62); hero.grp.visible = true; hero.grp.position.set(103, 0, 55); hero.set(u > 0.45 ? 'surprised' : 'neutral', u > 0.45 ? 'up' : 'down'); hero.bob(t);
       crew.forEach((a, i) => { a.grp.visible = true; a.grp.position.set(30 + i * 14, 0, -30 + i * 9); a.set(i % 2 ? 'worried' : 'neutral'); a.bob(t + i); });
-      place(lerpV(V(110, 1.6, 52), V(96, 8, 44), u), lerpV(V(70, 2.2, 30), V(40, 62, 0), ease((t - 0.6) / (d - 0.6))), lerp(42, 60, u), -0.05 + u * 0.08); return field; },
+      place(lerpV(V(108, 1.7, 62), V(96, 9, 58), u), lerpV(V(80, 22, 20), V(70, 58, 0), u), lerp(68, 62, u), -0.06 + u * 0.08); return field; },
     // 2 — date/place: dolly from the gate sign to the calendar on the crate
     (t, d) => { resetField(); const u = ease(t / d); shipAtMast(35, 62);
       place(lerpV(V(160, 16, 200), V(112, 6.4, 188), u), lerpV(V(120, 9, 160), V(104, 5.6, 176), ease((t - 0.8) / 1.8)), lerp(55, 42, u), 0.03); return field; },
@@ -319,7 +319,7 @@
       rain.position.y = -((t * 400) % 18);
       captain.grp.visible = t > 2.6; captain.set('worried', 'hold', { prop: 'watch' });
       if (captain.grp.visible) { const fwd = new T.Vector3(); cam.getWorldDirection(fwd); }
-      if (t < 2.6) { place(lerpV(V(-100, 230, 260), V(40, 215, 170), u), stormShip.position.clone(), 55, 0.12); storm.remove(lateSign); }
+      if (t < 2.6) { place(lerpV(V(-160, 245, 520), V(40, 230, 430), u), stormShip.position.clone(), 50, 0.12); storm.remove(lateSign); }
       else { const k = ease((t - 2.6) / (d - 2.6)); place(V(0, 1.7, lerp(8, 5.5, k)), V(0, 1.6, 0), 45, 0.04); captain.grp.position.set(-0.2, 0, 0); captain.bob(t, 0.02); lateSign.position.set(1.6, 2.2, 1); lateSign.rotation.set(0, -0.3, 0.06); storm.add(lateSign); }
       return storm; },
     // 9 — two investigations, same conclusion
