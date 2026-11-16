@@ -175,7 +175,7 @@ def _canopy_mask(W, H, cx, cy, R, seed):
     return m, blobs
 
 
-def make_tree(state='normal', seed=1, broken=False):
+def make_tree(state='normal', seed=1, broken=False, fruit=True):
     """state: normal | ice | blanket. Returns RGBA ~ 512x640 (trunk base at bottom center)."""
     S = 2
     W, H = 512 * S, 640 * S
@@ -208,7 +208,7 @@ def make_tree(state='normal', seed=1, broken=False):
     # oranges
     cd = ImageDraw.Draw(can)
     oranges = []
-    for i in range(16):
+    for i in range(16 if fruit else 0):
         a = r.uniform(0, 6.28); rr = R * math.sqrt(r.uniform(0.05, 0.75))
         ox = cx + math.cos(a) * rr; oy = cy + math.sin(a) * rr * 0.85
         orr = R * r.uniform(0.075, 0.095)

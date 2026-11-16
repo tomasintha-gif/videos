@@ -143,6 +143,14 @@ def draw_quad(frame, cam, corners, tex, mode='over', opacity=1.0, near=0.15):
 
 
 _MIP = {}
+
+
+def blur(frame, r):
+    from PIL import ImageFilter
+    if r <= 0.3:
+        return frame
+    im = Image.fromarray(np.clip(frame, 0, 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(r))
+    return np.asarray(im, np.float32).copy()
 _TINT = {}
 
 
@@ -210,7 +218,7 @@ def item_corners(it, cam):
     return np.array([b - r * hw + top_off, b + r * hw + top_off, b + r * hw, b - r * hw])
 
 
-def render(cam, world, items, fog_col, grade=None, ground_tint=None, emissive=(), post_tint=None):
+def render(cam, world, items, fog_col, grade=None, ground_tint=None, emissive=(), post_tint=None, dof=None):
     frame = world.background(cam, fog_col, ground_tint=ground_tint)
     prepared = []
     for it in items:
@@ -222,10 +230,15 @@ def render(cam, world, items, fog_col, grade=None, ground_tint=None, emissive=()
         prepared.append((it['layer'] if it['kind'] == 'flat' else 0, -dpt, id(it), it, c))
     prepared.sort(key=lambda x: (x[0], x[1]))
     post = []
+    blurred = dof is None
     for _, d_, _, it, c in prepared:
+        if not blurred and -d_ < dof[0]:
+            frame = blur(frame, dof[1]); blurred = True
         if it.get('post'):
             post.append((d_, it, c)); continue
         draw_quad(frame, cam, c, it['tex'], it['mode'], it['opacity'])
+    if not blurred:
+        frame = blur(frame, dof[1])
     if grade is not None:
         frame = grade(frame)
     for _, it, c in sorted(post, key=lambda x: x[0]):
