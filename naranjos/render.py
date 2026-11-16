@@ -139,6 +139,8 @@ def work(args):
     f0, f1, outdir = args
     for f in range(f0, f1):
         T = f / FPS
+        if '--resume' in sys.argv and os.path.exists(os.path.join(outdir, f'f{f:05d}.jpg')):
+            continue
         img = finish(frame_at(T), T)
         img.save(os.path.join(outdir, f'f{f:05d}.jpg'), quality=93)
     return f1 - f0

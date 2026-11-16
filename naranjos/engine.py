@@ -76,7 +76,7 @@ class World:
             col[inside] = (G[i0, j0] * (1 - fx) * (1 - fy) + G[i0, j0 + 1] * fx * (1 - fy) +
                            G[i0 + 1, j0] * (1 - fx) * fy + G[i0 + 1, j0 + 1] * fx * fy)
             ds = self.detail.shape[0]
-            dd = self.detail[((gz * 24) % ds).astype(np.int32), ((gx * 24) % ds).astype(np.int32)]
+            dd = self.detail[np.floor(gz * 24).astype(np.int64) % ds, np.floor(gx * 24).astype(np.int64) % ds]
             col *= (0.75 + 0.25 * dd)[:, None]
             if ground_tint is not None:
                 col = ground_tint(gx, gz, col)
